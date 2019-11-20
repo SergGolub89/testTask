@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,KACE,YAAa,CACb,YACF,CAEA,WACE,UACF","file":"main.94484d2b.chunk.css","sourcesContent":[".App {\n  display: flex;\n  height: 800px;\n}\n\n.rst__tree {\n  width: 100%;\n}\n"]}
