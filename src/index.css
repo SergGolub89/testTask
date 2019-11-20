@@ -1,3 +1,8 @@
 .App {
-  height: 300px;
+  display: flex;
+  height: 800px;
+}
+
+.rst__tree {
+  width: 100%
 }

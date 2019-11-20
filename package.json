@@ -2,7 +2,9 @@
   "name": "react__test-task",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://serggolub89.github.io/testTask/",
   "dependencies": {
+    "gh-pages": "^2.1.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.2.0",
@@ -13,7 +15,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "homepage" : "https://serggolub89.github.io/testTask/"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
