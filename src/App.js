@@ -56,15 +56,6 @@ class App extends React.Component {
     })
   }
 
-  createUniqueId = (tree) => {
-    walk({
-      treeData: tree,
-      callback: (node) => {
-        node.id = Math.random();
-      }
-    })
-  }
-
   changeColor = (prop) => {
     switch(prop) {
       case 'absent': return 'red';
@@ -102,9 +93,7 @@ class App extends React.Component {
                   },
                   ignoreCollapsed: true,
                 })
-                console.log(path[path.length - 1][0]);
-                console.log(node);
-                console.log(mirrorNode);
+
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
@@ -143,10 +132,6 @@ class App extends React.Component {
                   },
                   ignoreCollapsed: true,
                 })
-
-                console.log(path[path.length - 1][0]);
-                console.log(node);
-                console.log(mirrorNode);
 
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
