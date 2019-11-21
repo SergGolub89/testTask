@@ -15,7 +15,7 @@ class App extends React.Component {
     for (let prop in obj) {
       const status = obj[prop].status;
       delete obj[prop].status;
-
+ 
       switch (typeof obj[prop]) {
         case 'object':
           if (obj[prop].name) {
@@ -35,7 +35,7 @@ class App extends React.Component {
           break;
         case 'string':
           result.push({
-            title: obj[prop].split('-').pop()
+            title: obj[prop].split('-').pop(),
           });
           break;
         default:
@@ -56,6 +56,15 @@ class App extends React.Component {
     })
   }
 
+  createUniqueId = (tree) => {
+    walk({
+      treeData: tree,
+      callback: (node) => {
+        node.id = Math.random();
+      }
+    })
+  }
+
   changeColor = (prop) => {
     switch(prop) {
       case 'absent': return 'red';
@@ -67,7 +76,7 @@ class App extends React.Component {
 
   render() {
     const { leftTree, rightTree } = this.state;
-    const getNodeKey = ({ node }) => node.title;
+    const getNodeKey = ({ node, treeIndex }) => `${treeIndex}` + JSON.stringify(node);
 
     return (
       <div className="App">
@@ -81,18 +90,21 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
+                const tabIndex = path[path.length - 1][0];
                 let mirrorNode = null;
                 walk({
                   treeData: rightTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title) {
+                    if (node.node.title === title && node.path[path.length - 1][0] === tabIndex) {
                       mirrorNode = node.node;
                     }
                   },
                   ignoreCollapsed: true,
                 })
-
+                console.log(path[path.length - 1][0]);
+                console.log(node);
+                console.log(mirrorNode);
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
@@ -119,17 +131,22 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
+                const tabIndex = path[path.length - 1][0];
                 let mirrorNode = null;
                 walk({
                   treeData: leftTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title) {
+                    if (node.node.title === title && node.path[path.length - 1][0] === tabIndex) {
                       mirrorNode = node.node;
                     }
                   },
                   ignoreCollapsed: true,
                 })
+
+                console.log(path[path.length - 1][0]);
+                console.log(node);
+                console.log(mirrorNode);
 
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
