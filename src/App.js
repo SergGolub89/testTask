@@ -56,6 +56,15 @@ class App extends React.Component {
     })
   }
 
+  changeColor = (prop) => {
+    switch(prop) {
+      case 'absent': return 'red';
+      case 'modified': return '#FFD700';
+      case 'new': return 'green';
+      default: return '';
+    }
+  }
+
   render() {
     const { leftTree, rightTree } = this.state;
     const getNodeKey = ({ node }) => node.title;
@@ -71,6 +80,12 @@ class App extends React.Component {
           treeData={rightTree}
           onChange={(rightTree) => this.setState({ rightTree })}
           getNodeKey={getNodeKey}
+          generateNodeProps={({ node, path }) => {
+            return {
+              style: { color: `${this.changeColor(node.subtitle)}`},
+              title: `${node.title}`,
+            };
+          }}
         />
       </div>
     );
