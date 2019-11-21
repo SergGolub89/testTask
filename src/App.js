@@ -1,6 +1,6 @@
 import React from 'react';
 import data from './treeStructure';
-import SortableTree from 'react-sortable-tree';
+import SortableTree, { changeNodeAtPath, walk } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 
 class App extends React.Component {
@@ -75,6 +75,39 @@ class App extends React.Component {
           treeData={leftTree}
           onChange={(leftTree) => this.setState({ leftTree })}
           getNodeKey={getNodeKey}
+          generateNodeProps={({ node, path }) => {
+            return {
+              style: { color: `${this.changeColor(node.subtitle)}`},
+              title: `${node.title}`,
+              onClick: () => {
+                const title = node.title;
+                let mirrorNode = null;
+                walk({
+                  treeData: rightTree,
+                  getNodeKey,
+                  callback: (node) => {
+                    if (node.node.title === title) {
+                      mirrorNode = node.node;
+                    }
+                  },
+                  ignoreCollapsed: true,
+                })
+
+                if (mirrorNode) {
+                  mirrorNode.expanded = !mirrorNode.expanded;
+                }
+
+                this.setState(state => ({
+                  leftTree: changeNodeAtPath({
+                    treeData: state.leftTree,
+                    path,
+                    getNodeKey,
+                    newNode: { ...node, expanded: !node.expanded },
+                  }),
+                }));
+              },
+            };
+          }}
         />
         <SortableTree
           treeData={rightTree}
@@ -84,6 +117,33 @@ class App extends React.Component {
             return {
               style: { color: `${this.changeColor(node.subtitle)}`},
               title: `${node.title}`,
+              onClick: () => {
+                const title = node.title;
+                let mirrorNode = null;
+                walk({
+                  treeData: leftTree,
+                  getNodeKey,
+                  callback: (node) => {
+                    if (node.node.title === title) {
+                      mirrorNode = node.node;
+                    }
+                  },
+                  ignoreCollapsed: true,
+                })
+
+                if (mirrorNode) {
+                  mirrorNode.expanded = !mirrorNode.expanded;
+                }
+
+                this.setState(state => ({
+                  rightTree: changeNodeAtPath({
+                    treeData: state.rightTree,
+                    path,
+                    getNodeKey,
+                    newNode: { ...node, expanded: !node.expanded },
+                  }),
+                }));
+              },
             };
           }}
         />
