@@ -15,7 +15,7 @@ class App extends React.Component {
     for (let prop in obj) {
       const status = obj[prop].status;
       delete obj[prop].status;
- 
+
       switch (typeof obj[prop]) {
         case 'object':
           if (obj[prop].name) {
@@ -67,7 +67,7 @@ class App extends React.Component {
 
   render() {
     const { leftTree, rightTree } = this.state;
-    const getNodeKey = ({ node, treeIndex }) => `${treeIndex}` + JSON.stringify(node);
+    const getNodeKey = ({ node }) => JSON.stringify(node);
 
     return (
       <div className="App">
@@ -81,13 +81,13 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
-                const tabIndex = path[path.length - 1][0];
+                const tabIndex = path[0].slice(0, 20);
                 let mirrorNode = null;
                 walk({
                   treeData: rightTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title && node.path[path.length - 1][0] === tabIndex) {
+                    if (node.node.title === title && node.path[0].startsWith(tabIndex)) {
                       mirrorNode = node.node;
                     }
                   },
@@ -120,13 +120,13 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
-                const tabIndex = path[path.length - 1][0];
+                const tabIndex = path[0].slice(0, 20);
                 let mirrorNode = null;
                 walk({
                   treeData: leftTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title && node.path[path.length - 1][0] === tabIndex) {
+                    if (node.node.title === title && node.path[0].startsWith(tabIndex)) {
                       mirrorNode = node.node;
                     }
                   },
