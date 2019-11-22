@@ -67,7 +67,7 @@ class App extends React.Component {
 
   render() {
     const { leftTree, rightTree } = this.state;
-    const getNodeKey = ({ node }) => JSON.stringify(node);
+    const getNodeKey = ({ node, treeIndex }) => JSON.stringify(node) + `${treeIndex}`;
 
     return (
       <div className="App">
@@ -81,19 +81,20 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
-                const tabIndex = path[0].slice(0, 20);
+                const tabIndex = path[0];
+                const parentPath = tabIndex.slice(0, 20);
                 let mirrorNode = null;
                 walk({
                   treeData: rightTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title && node.path[0].startsWith(tabIndex)) {
+                    if (node.node.title === title && node.path[0].startsWith(parentPath)) {
                       mirrorNode = node.node;
                     }
                   },
                   ignoreCollapsed: true,
                 })
-
+                console.log(path);
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
@@ -120,19 +121,20 @@ class App extends React.Component {
               title: `${node.title}`,
               onClick: () => {
                 const title = node.title;
-                const tabIndex = path[0].slice(0, 20);
+                const tabIndex = path[0];
+                const parentPath = tabIndex.slice(0, 20)
                 let mirrorNode = null;
                 walk({
                   treeData: leftTree,
                   getNodeKey,
                   callback: (node) => {
-                    if (node.node.title === title && node.path[0].startsWith(tabIndex)) {
+                    if (node.node.title === title && node.path[0].startsWith(parentPath)) {
                       mirrorNode = node.node;
                     }
                   },
                   ignoreCollapsed: true,
                 })
-
+                console.log(path);
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
