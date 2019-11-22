@@ -94,7 +94,7 @@ class App extends React.Component {
                   },
                   ignoreCollapsed: true,
                 })
-                console.log(path);
+
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
@@ -134,7 +134,7 @@ class App extends React.Component {
                   },
                   ignoreCollapsed: true,
                 })
-                console.log(path);
+
                 if (mirrorNode) {
                   mirrorNode.expanded = !mirrorNode.expanded;
                 }
